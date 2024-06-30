@@ -1,10 +1,13 @@
 ## True positives
+Staking Ecosystem
 NFT.withdrawFunds() (src/NFT.sol#189-191) ignores return value by address(msg.sender).call{value: address(this).balance}() (src/NFT.sol#190)
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unchecked-low-level-calls
 
 - Should add a check on call success
 
 ## False positives
+Staking Ecosystem
+
 Parameter NFT.setStakingHandler(address)._stakingHandler (src/NFT.sol#104) is not in mixedCase
 
 - This is fine, since using Chainlink pattern
@@ -83,3 +86,19 @@ Reentrancy in StakingHandler.withdrawStakingRewards() (src/StakingHandler.sol#11
         Event emitted after the call(s):
         - StakingWithdrawn(msg.sender,withdrawableAmount,block.number) (src/StakingHandler.sol#130)
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3
+
+Enumerable NFT
+- This is fine because The max amount of tokens to buy is limited by the ID and the rest of functions are view functions and the internal functions of standard ERC-721
+
+INFO:Detectors:
+Reentrancy in EnumerableNFT.mint(address,uint256) (src/EnumerableNFT.sol#39-52):
+        External calls:
+        - _safeMint(_to,_tokenId) (src/EnumerableNFT.sol#47)
+                - IERC721Receiver(to).onERC721Received(_msgSender(),from,tokenId,data) (lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol#467-480)
+        State variables written after the call(s):
+        - s_allTokens.push(_tokenId) (src/EnumerableNFT.sol#49)
+        EnumerableNFT.s_allTokens (src/EnumerableNFT.sol#18) can be used in cross function reentrancies:
+        - EnumerableNFT.mint(address,uint256) (src/EnumerableNFT.sol#39-52)
+        - EnumerableNFT.tokenByIndex(uint256) (src/EnumerableNFT.sol#73-80)
+        - EnumerableNFT.totalSupply() (src/EnumerableNFT.sol#31-33)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1
