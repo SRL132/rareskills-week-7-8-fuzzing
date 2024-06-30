@@ -1,0 +1,6 @@
+[submodule "week8/exercises/dex/lib/forge-std"]
+	path = week8/exercises/dex/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "week8/exercises/dex/lib/openzeppelin-contracts"]
+	path = week8/exercises/dex/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
