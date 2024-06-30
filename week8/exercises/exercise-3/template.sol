@@ -12,9 +12,16 @@ contract TestToken is MintableToken {
     address echidna = msg.sender;
 
     // TODO: update the constructor
-    constructor(int256 totalMintable) MintableToken(totalMintable) {}
+    constructor() MintableToken(10_000) {
+        owner = echidna;
+    }
 
+    //Add a property to check if echidna can mint more than 10,000 tokens.
     function echidna_test_balance() public view returns (bool) {
-        // TODO: add the property
+        return balances[msg.sender] <= 10_000;
+    }
+
+    function echidna_test_mintable() public view returns (bool) {
+        return MintableToken(address(this)).totalMinted() <= 10_000;
     }
 }
