@@ -1,3 +1,4 @@
+Link: https://github.com/SRL132/rareskills-week3
 ## True positives
 - The "from" is an external address and the "to" is the contract, there is also a success check. This pattern is also applied for flashLoan functions at times https://www.rareskills.io/post/erc-3156 , but it can certainly open possibilities for strange behaviours (initiating a loan and letting another account that you know has allowance to pay back for it)
 
