@@ -5,11 +5,19 @@ import "./openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 import "./openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
 import "./openzeppelin-contracts/contracts/access/Ownable.sol";
 
-contract Dex is Ownable {
+contract Dex {
     address public token1;
     address public token2;
+    address public owner;
 
-    constructor(address _owner) Ownable(_owner) {}
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Not owner");
+        _;
+    }
+
+    constructor() {
+        owner = msg.sender;
+    }
 
     function setTokens(address _token1, address _token2) public onlyOwner {
         token1 = _token1;
@@ -44,6 +52,7 @@ contract Dex is Ownable {
         address to,
         uint256 amount
     ) public view returns (uint256) {
+        //This should be rounded in favor of the pool or validation should be added to make sure the pool is not losing money after the swap
         return ((amount * IERC20(to).balanceOf(address(this))) /
             IERC20(from).balanceOf(address(this)));
     }
