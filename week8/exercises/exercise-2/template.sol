@@ -15,6 +15,6 @@ contract TestToken is Token {
     }
 
     function echidna_cannot_be_unpause() public view returns (bool) {
-        return Token(address(this)).paused() == true;
+        return paused();
     }
 }
